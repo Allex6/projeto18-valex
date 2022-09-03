@@ -1,50 +1,53 @@
 import cardsService from './../services/cardsService';
-import { Request, Response, Next${fileExt === 'js' ? '' : ' :NextFunction'}Function } from 'express'
+import { Request, Response, NextFunction } from 'express';
+import errorFactory from './../utils/errorFactory';
 
 async function createCards(req :Request, res :Response, next :NextFunction){
 
     const bodyData = req.body;
-    await cardsService.createCards(bodyData);
+    const apiKey = res.locals['x-api-key'];
+
+    await cardsService.createCards(apiKey, bodyData);
     res.sendStatus(201);
 
 }
 
-async function getById(req :Request, res :Response, next :NextFunction){
+async function activateCard(req :Request, res :Response, next :NextFunction){
 
-    const { id } = req.params;
-    const cardsData = await cardsService.getById(id);
-    res.send(cardsData);
-
-}
-
-async function list(req :Request, res :Response, next :NextFunction){
-
-    const cardss = await cardsService.list();
-    res.send(cardss);
-
-}
-
-async function updateCards(req :Request, res :Response, next :NextFunction){
-
-    const { id } = req.params;
     const bodyData = req.body;
-    await cardsService.updateCards(id, bodyData);
+    await cardsService.activateCard(bodyData);
     res.sendStatus(200);
 
 }
 
-async function deleteCards(req :Request, res :Response, next :NextFunction){
+async function blockCard(req :Request, res :Response, next :NextFunction){
+
+    const bodyData = req.body;
+    await cardsService.blockCard(bodyData);
+    res.sendStatus(200);
+
+}
+
+async function unblockCard(req :Request, res :Response, next :NextFunction){
+
+    const bodyData = req.body;
+    await cardsService.unblockCard(bodyData);
+    res.sendStatus(200);
+
+}
+
+async function getBalance(req :Request, res :Response, next :NextFunction){
 
     const { id } = req.params;
-    await cardsService.deleteCards(id);
-    res.sendStatus(200);
+    const cardBalance = await cardsService.getBalance(Number(id));
+    res.send(cardBalance);
 
 }
 
 export default {
     createCards,
-    getById,
-    list,
-    updateCards,
-    deleteCards
+    activateCard,
+    getBalance,
+    blockCard,
+    unblockCard
 }

@@ -12,6 +12,6 @@ const pool = new Pool({
     }
 });
 
-await pool.connect();
+(async () => await pool.connect());
 
 export default pool;

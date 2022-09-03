@@ -1,6 +1,7 @@
 import { Router } from "express";
 import paymentsController from "../controllers/paymentsController";
 import schemaValidator from "../middlewares/schemaValidator";
+import paymentsOnlineSchema from "../schemas/paymentsOnlineSchema";
 import paymentsSchema from "../schemas/paymentsSchema";
 
 const router = Router();
@@ -10,20 +11,9 @@ router.post('/',
     paymentsController.createPayments
 );
 
-router.get('/', 
-    paymentsController.list
-);
-
-router.get('/:id',
-    paymentsController.getById
-);
-
-router.put('/:id',
-    paymentsController.updatePayments
-);
-
-router.delete('/:id',
-    paymentsController.deletePayments
+router.post('/online', 
+    schemaValidator(paymentsOnlineSchema), 
+    paymentsController.createOnlinePayments
 );
 
 export default router;

@@ -2,8 +2,7 @@ import joi from 'joi';
 
 const rechargesSchema = joi.object({
 	cardId: joi.number().required(),
-	timestamp: joi.date().timestamp(),
-	amount: joi.number().required()
+	amount: joi.number().min(1).required()
 });
 
 export default rechargesSchema;
